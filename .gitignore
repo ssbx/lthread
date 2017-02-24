@@ -18,3 +18,4 @@ src/.libs
 *.DS_Store
 *.swp
 build*
+/_build
