@@ -1,6 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
 project (lthread)
-SET(CMAKE_BUILD_TYPE release)
 SET (CMAKE_C_FLAGS_RELEASE "-Werror -g -Wall")
 
 configure_file(
@@ -22,15 +21,17 @@ set(UNIT_TEST_PATH ${CMAKE_SOURCE_DIR}/tests)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${UNIT_TEST_PATH})
 include_directories(src)
 
-add_executable(lthread_sleep tests/lthread_sleep.c)
-target_link_libraries(lthread_sleep lthread pthread)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
+  add_executable(lthread_sleep tests/lthread_sleep.c)
+  target_link_libraries(lthread_sleep lthread pthread)
 
-add_executable(lthread_io tests/lthread_io.c)
-target_link_libraries(lthread_io lthread pthread)
+  add_executable(lthread_io tests/lthread_io.c)
+  target_link_libraries(lthread_io lthread pthread)
 
-add_executable(lthread_join tests/lthread_join.c)
-target_link_libraries(lthread_join lthread pthread)
+  add_executable(lthread_join tests/lthread_join.c)
+  target_link_libraries(lthread_join lthread pthread)
 
-enable_testing()
-add_test(lthread_sleep ${UNIT_TEST_PATH}/lthread_sleep)
-add_test(lthread_join ${UNIT_TEST_PATH}/lthread_join)
+  enable_testing()
+  add_test(lthread_sleep ${UNIT_TEST_PATH}/lthread_sleep)
+  add_test(lthread_join ${UNIT_TEST_PATH}/lthread_join)
+endif ("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
